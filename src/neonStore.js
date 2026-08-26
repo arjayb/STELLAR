@@ -29,6 +29,25 @@ function chainOrder(rows){
   if(ordered.length!==rows.length)throw Error(`Provenance ledger chain incomplete: ${ordered.length}/${rows.length}`);
   return ordered;
 }
+const PAYLOAD_ORDER={
+  TRAVELER_CREATED:['travelerUid','username'],
+  CARD_ISSUED:['cardId','travelerUid','rarity','kind'],
+  USERNAME_CHANGED:['travelerUid','from','to'],
+  JOURNEY_STARTED:['travelerUid','journeyId','pathId','cardId'],
+  STAR_COMPLETED:['travelerUid','historicalUsername','journeyId','domain','tier','pathId','starIndex','at'],
+  CG_AUTHENTICATED_COMPLETION:['travelerUid','historicalUsername','journeyId','domain','tier','pathId','starIndex','at','guideUid','privacy'],
+  STAMP_APPLIED:['travelerUid','cardId'],
+  REPORT_CREATED:['id','reporterUid','targetUid','reason','at','status'],
+  GENESIS_RESET_USED:['travelerUid'],
+  ACCOUNT_DELETED:['travelerUid','historicalUsername'],
+  ROLE_GRANTED:['travelerUid','role']
+};
+function restorePayload(type,payload){
+  const order=PAYLOAD_ORDER[type];if(!order)return payload;
+  const out={};for(const k of order)if(Object.prototype.hasOwnProperty.call(payload,k))out[k]=payload[k];
+  for(const k of Object.keys(payload))if(!Object.prototype.hasOwnProperty.call(out,k))out[k]=payload[k];
+  return out;
+}
 
 async function hydrate(){
   if(!isEnabled())return {backend:'file',hydrated:false};
@@ -38,7 +57,7 @@ async function hydrate(){
   const ev=await p.query('SELECT id,event_type,payload,prev_hash,hash,created_at FROM provenance_events');
   if(ev.rows.length){
     const ordered=chainOrder(ev.rows);
-    const lines=ordered.map(r=>JSON.stringify({id:r.id,at:new Date(r.created_at).toISOString(),type:r.event_type,payload:r.payload,prevHash:r.prev_hash,hash:r.hash}));
+    const lines=ordered.map(r=>JSON.stringify({id:r.id,at:new Date(r.created_at).toISOString(),type:r.event_type,payload:restorePayload(r.event_type,r.payload),prevHash:r.prev_hash,hash:r.hash}));
     fs.writeFileSync(LEDGER,lines.join('\n')+'\n');
   }else if(fs.existsSync(LEDGER))fs.unlinkSync(LEDGER);
   return {backend:'neon',hydrated:Boolean(snap.rows[0]?.value),events:ev.rows.length};
@@ -84,4 +103,4 @@ async function status(){
   const r=await getPool().query("SELECT value FROM app_meta WHERE key='runtime_boots'");
   return {backend:'neon',connected:true,boots:r.rows[0]?.value||null};
 }
-module.exports={hydrate,persist,recordBoot,recordCgMedia,getCgMedia,status,isEnabled,chainOrder};
+module.exports={hydrate,persist,recordBoot,recordCgMedia,getCgMedia,status,isEnabled,chainOrder,restorePayload};
