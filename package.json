@@ -1,9 +1,12 @@
 {
   "name": "stellar-build-003",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "scripts": {
     "start": "node server.js",
     "test": "node tests.js"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
   }
 }
