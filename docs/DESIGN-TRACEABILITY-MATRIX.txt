@@ -1,0 +1,54 @@
+STELLAR BUILD-003 — DESIGN TRACEABILITY MATRIX
+
+Legend:
+WORKING CODE = implemented executable behavior
+AUTOMATED TEST = covered by tests.js
+EXTERNAL ADAPTER = contract/interface implemented; real external provider required
+DEFERRED-BY-DESIGN = explicitly not V1 or exact specificity intentionally deferred
+
+Architecture / responsive HTML-first / 9:16 authority — WORKING CODE
+Public UID persistent enrollment identity — WORKING CODE + AUTOMATED TEST
+Wallet-style liveness / duplicate-enrollment control — EXTERNAL ADAPTER (demo liveness-key adapter executable)
+First-entry Lore → Observatory — WORKING CODE
+7-circle V1 primary navigation + authorized CG auxiliary circle — WORKING CODE
+Night Sky / visible-vs-hidden state separation — WORKING CODE
+Four Foundational Invitations — WORKING CODE + AUTOMATED TEST
+Foundational evergreen Standing Invitations — WORKING CODE + AUTOMATED TEST
+T-B-T-T-B-T-F — WORKING CODE
+Progressive Constellation illumination / reveal — WORKING CODE
+Specialization tier — WORKING CODE + AUTOMATED TEST
+Mastery tier — WORKING CODE + AUTOMATED TEST
+Zero Hints hidden Specialization/Mastery — WORKING CODE + AUTOMATED TEST
+Organic trigger engine — WORKING CODE
+Sponsored trigger engine — WORKING CODE + AUTOMATED TEST
+Partial Organic trigger progress hidden from client — WORKING CODE
+House of Mirrors / available+suspended reflections — WORKING CODE
+Alternate possible Night Sky visions without numeric labels — WORKING CODE
+Card key / explicit confirmation / suspension binding — WORKING CODE
+Path Completion Contracts — WORKING CODE + AUTOMATED TEST
+AI assessor PASS / TRY_AGAIN / REVIEW — WORKING CODE + AUTOMATED TEST; production model = EXTERNAL ADAPTER
+Star first-completion Card issuance / rarity — WORKING CODE
+33rd unique Path Legendary replacement — WORKING CODE
+Foundational fourth-Final CG rule — WORKING CODE
+Specialization Final CG rule — WORKING CODE + AUTOMATED TEST
+Mastery Final CG rule — WORKING CODE + AUTOMATED TEST
+CG server-authorized; no self-authentication; CG-to-CG review flag — WORKING CODE
+CG photo/media capture — EXTERNAL ADAPTER; metadata/privacy contract WORKING CODE
+Foundational Milestone + post-reveal Stamp choice — WORKING CODE
+Passport summary + Binder + Card history — WORKING CODE
+Public UID + historical username snapshot — WORKING CODE + AUTOMATED TEST
+Username editable current state — WORKING CODE + AUTOMATED TEST
+Observation / Find Traveler / Recent 3 unique Observers — WORKING CODE
+Blocking — WORKING CODE + AUTOMATED TEST
+Reporting — WORKING CODE + AUTOMATED TEST
+CG photo privacy current state — WORKING CODE
+Genesis Reset one-time + eligibility gate — WORKING CODE + AUTOMATED TEST
+Exact Genesis Reset policy values — DEFERRED-BY-DESIGN; prototype policy constants used only to execute gate
+Account deletion identity masking / immutable provenance retention — WORKING CODE + AUTOMATED TEST
+Append-only hash-chained provenance adapter — WORKING CODE + AUTOMATED TEST
+Production relational DB/auth/media stack — EXTERNAL ADAPTER
+Finite-series enforcement hook — WORKING CODE
+Premium/Super Premium exact economy — DEFERRED-BY-DESIGN
+V1.1 Community Forum/RSVP/CG events — DEFERRED-BY-DESIGN
+V2 trading / Return to Night Sky / Recall — DEFERRED-BY-DESIGN
+APK/mobile packaging — EXTERNAL ADAPTER / later packaging step

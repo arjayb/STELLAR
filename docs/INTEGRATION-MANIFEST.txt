@@ -1,0 +1,23 @@
+STELLAR BUILD-003 — INTEGRATION STATUS
+
+EXECUTED CORE
+- STELLAR domain/state engine
+- server-authoritative identity/progression/gacha/provenance logic
+- Foundation / Specialization / Mastery tier handling
+- Invitation continuity / hidden-state / organic+sponsored triggers
+- Card/Journey/Archive/Observation/CG/account mechanics
+- append-only hash-chained prototype provenance ledger
+- responsive HTML client
+- automated correction tests
+
+EXTERNAL ADAPTER REQUIRED FOR PRODUCTION
+- biometric liveness / duplicate-human enrollment provider
+- production multimodal AI assessment provider
+- camera/media object storage
+- production relational DB and production authentication
+- packaged mobile/APK runtime
+
+DEFERRED BY APPROVED DESIGN
+- exact Premium/Super Premium economy and targeting specificity
+- V1.1 Community Forum / RSVP event system
+- V2 trading / Return to Night Sky / Recall
