@@ -12,11 +12,16 @@ EXECUTED CORE
 - Neon Postgres persistence adapter wired to Render runtime
 - Neon-backed snapshot hydration and provenance-event persistence
 - Render restart/redeploy persistence verification
+- Cloudinary authenticated CG media storage wired to Render runtime
+- durable CG media references persisted in Neon
+- live CG upload / Community Guide completion / Foundational milestone PROVE
+- Cloudinary asset independently verified as authenticated and backed up
+- provenance ledger restart hydration repaired to reconstruct canonical hash-chain order and payload order
+- post-restart CG media-reference verification automated
 
 EXTERNAL ADAPTER REQUIRED FOR PRODUCTION
 - biometric liveness / duplicate-human enrollment provider
 - production multimodal AI assessment provider
-- camera/media object storage
 - production authentication
 - packaged mobile/APK runtime
 
@@ -24,6 +29,7 @@ DEPLOYMENT
 - Private GitHub repository: arjayb/STELLAR
 - Render PROVE service: stellar-prove
 - Neon project: STELLAR / main
+- Cloudinary authenticated media namespace: STELLAR/cg-authentication
 
 DEFERRED BY APPROVED DESIGN
 - exact Premium/Super Premium economy and targeting specificity
