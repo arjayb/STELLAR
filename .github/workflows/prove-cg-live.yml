@@ -1,0 +1,23 @@
+name: STELLAR Live CG PROVE
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/prove-cg-live.js'
+      - '.github/workflows/prove-cg-live.yml'
+
+jobs:
+  prove:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Wait for STELLAR and prove live CG persistence
+        env:
+          STELLAR_BASE_URL: https://stellar-prove.onrender.com
+        run: node scripts/prove-cg-live.js
