@@ -16,10 +16,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Install dependencies
+        run: npm install
       - name: Syntax check server
         run: node --check server.js
       - name: Syntax check core
         run: node --check src/core.js
+      - name: Syntax check Neon store
+        run: node --check src/neonStore.js
       - name: Syntax check client
         run: node --check public/app.js
       - name: Run STELLAR smoke tests
