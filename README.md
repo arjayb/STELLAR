@@ -1,26 +1,44 @@
-# STELLAR BUILD-003 — Third Corrected Handoff Build
+# STELLAR
 
-This repository contains the accepted BUILD-003 baseline for STELLAR.
+Private BUILD repository for the STELLAR Companion App / Living Constellation Universe.
 
-BUILD-003 closes the implementation omissions identified in POLARIS handoff audit 002 without reopening DESIGN or inventing external vendors.
+Current baseline: **STELLAR-BUILD-003** — accepted after POLARIS handoff audit 003.
 
-Included:
-- Foundation, Specialization and Mastery tier engine
-- mandatory CG Final-Star gates for Specialization/Mastery
-- perpetual/standing Invitation behavior and hidden-state discipline
-- Organic and Sponsored trigger mechanisms
-- explicit per-Path Completion Contracts
-- PASS / TRY_AGAIN / REVIEW assessor adapter
-- Genesis Reset eligibility gate
-- editable username while preserving historical usernames
-- blocking and reporting
-- append-only hash-chained provenance event ledger
-- DESIGN-to-code traceability matrix
-- external-integration manifest
-- automated correction tests
+## Runtime
 
-Run: `node server.js`
+- responsive HTML/Web-first implementation
+- mobile-first portrait authority
+- Node server-authoritative prototype engine
+- Traveler/Public UID identity
+- Observatory → Night Sky
+- Foundational / Specialization / Mastery progression
+- T-B-T-T-B-T-F Foundational star grammar
+- Invitations, Organic/Sponsored triggers and Zero Hints
+- House of Mirrors Path-choice grammar
+- Card binding, rarity, provenance and finite-series hooks
+- Community Guide validation boundaries
+- Passport + Binder Archive
+- Observation, Recent Visits, blocking/reporting
+- Genesis Reset eligibility
+- account deletion with retained provenance
+- append-only hash-chained prototype ledger
 
-Test: `node tests.js`
+## Run
 
-Production liveness, multimodal AI, media storage, DB/auth and mobile packaging remain explicit external integrations.
+```bash
+npm start
+```
+
+Open `http://localhost:4173`.
+
+## Test
+
+```bash
+npm test
+```
+
+## Production adapters still required
+
+Biometric liveness, production multimodal AI assessment, camera/media storage, production DB/auth infrastructure, and packaged mobile/APK runtime remain explicit external integrations. The repository does not pretend those vendors are already connected.
+
+See `docs/DESIGN-TRACEABILITY-MATRIX.txt` and `docs/INTEGRATION-MANIFEST.txt` for the BUILD boundary.
