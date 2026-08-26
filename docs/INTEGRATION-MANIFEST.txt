@@ -6,16 +6,24 @@ EXECUTED CORE
 - Foundation / Specialization / Mastery tier handling
 - Invitation continuity / hidden-state / organic+sponsored triggers
 - Card/Journey/Archive/Observation/CG/account mechanics
-- append-only hash-chained prototype provenance ledger
+- append-only hash-chained provenance ledger
 - responsive HTML client
 - automated correction tests
+- Neon Postgres persistence adapter wired to Render runtime
+- Neon-backed snapshot hydration and provenance-event persistence
+- Render restart/redeploy persistence verification
 
 EXTERNAL ADAPTER REQUIRED FOR PRODUCTION
 - biometric liveness / duplicate-human enrollment provider
 - production multimodal AI assessment provider
 - camera/media object storage
-- production relational DB and production authentication
+- production authentication
 - packaged mobile/APK runtime
+
+DEPLOYMENT
+- Private GitHub repository: arjayb/STELLAR
+- Render PROVE service: stellar-prove
+- Neon project: STELLAR / main
 
 DEFERRED BY APPROVED DESIGN
 - exact Premium/Super Premium economy and targeting specificity
