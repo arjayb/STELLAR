@@ -1,5 +1,6 @@
 const fs=require('fs');
 const path=require('path');
+const crypto=require('crypto');
 const {Pool}=require('pg');
 
 const ROOT=path.join(__dirname,'..');
@@ -48,6 +49,8 @@ function restorePayload(type,payload){
   for(const k of Object.keys(payload))if(!Object.prototype.hasOwnProperty.call(out,k))out[k]=payload[k];
   return out;
 }
+function eventForRow(r){return{id:r.id,at:new Date(r.created_at).toISOString(),type:r.event_type,payload:restorePayload(r.event_type,r.payload),prevHash:r.prev_hash,hash:r.hash}}
+function computedHash(e){return crypto.createHash('sha256').update(JSON.stringify({id:e.id,at:e.at,type:e.type,payload:e.payload,prevHash:e.prevHash})).digest('hex')}
 
 async function hydrate(){
   if(!isEnabled())return {backend:'file',hydrated:false};
@@ -56,9 +59,10 @@ async function hydrate(){
   if(snap.rows[0]?.value)fs.writeFileSync(DB,JSON.stringify(snap.rows[0].value,null,2));
   const ev=await p.query('SELECT id,event_type,payload,prev_hash,hash,created_at FROM provenance_events');
   if(ev.rows.length){
-    const ordered=chainOrder(ev.rows);
-    const lines=ordered.map(r=>JSON.stringify({id:r.id,at:new Date(r.created_at).toISOString(),type:r.event_type,payload:restorePayload(r.event_type,r.payload),prevHash:r.prev_hash,hash:r.hash}));
-    fs.writeFileSync(LEDGER,lines.join('\n')+'\n');
+    const ordered=chainOrder(ev.rows),events=ordered.map(eventForRow);
+    const mismatch=events.find(e=>computedHash(e)!==e.hash);
+    if(mismatch)console.error('PROVENANCE_HYDRATION_HASH_MISMATCH',JSON.stringify({id:mismatch.id,type:mismatch.type,at:mismatch.at,prevHash:mismatch.prevHash,storedHash:mismatch.hash,computedHash:computedHash(mismatch),payload:mismatch.payload}));
+    fs.writeFileSync(LEDGER,events.map(JSON.stringify).join('\n')+'\n');
   }else if(fs.existsSync(LEDGER))fs.unlinkSync(LEDGER);
   return {backend:'neon',hydrated:Boolean(snap.rows[0]?.value),events:ev.rows.length};
 }
@@ -103,4 +107,4 @@ async function status(){
   const r=await getPool().query("SELECT value FROM app_meta WHERE key='runtime_boots'");
   return {backend:'neon',connected:true,boots:r.rows[0]?.value||null};
 }
-module.exports={hydrate,persist,recordBoot,recordCgMedia,getCgMedia,status,isEnabled,chainOrder,restorePayload};
+module.exports={hydrate,persist,recordBoot,recordCgMedia,getCgMedia,status,isEnabled,chainOrder,restorePayload,eventForRow,computedHash};
