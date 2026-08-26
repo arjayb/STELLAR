@@ -3,6 +3,8 @@ const ROOT=__dirname;for(const f of['db.json','ledger.jsonl'])try{fs.unlinkSync(
 const child=cp.spawn(process.execPath,['server.js'],{cwd:ROOT,stdio:['ignore','pipe','pipe']});
 function req(method,p,body){return new Promise((ok,bad)=>{const r=http.request({host:'127.0.0.1',port:4173,path:p,method,headers:{'Content-Type':'application/json'}},res=>{let b='';res.on('data',c=>b+=c);res.on('end',()=>ok({status:res.statusCode,json:JSON.parse(b)}))});r.on('error',bad);if(body)r.write(JSON.stringify(body));r.end()})}
 setTimeout(async()=>{try{
+ const mh=await req('GET','/api/media/health');assert.equal(mh.status,200);assert.equal(mh.json.backend,'cloudinary');assert.equal(mh.json.configured,false);
+ const blockedMedia=await req('POST','/api/cg/media',{travelerUid:'ST-TEST',journeyId:'J-TEST',dataUrl:'data:image/png;base64,iVBORw0KGgo='});assert.equal(blockedMedia.status,503);
  const a=(await req('POST','/api/enroll',{username:'Founder',livenessKey:'HUMAN-A'})).json.traveler;assert.ok(/^ST-/.test(a.uid));assert.equal(a.cards.length,1);assert.equal(a.invitations.length,4);
  const inv=a.invitations.find(x=>x.domain==='body');const s=await req('POST','/api/invitation/accept',{uid:a.uid,invitationId:inv.id});const card=s.json.cards[0];const j=(await req('POST','/api/journey/start',{uid:a.uid,domain:'body',pathId:'body-path-a',cardId:card.id})).json.journey;
  const bad=await req('POST','/api/journey/complete-star',{uid:a.uid,journeyId:j.id,evidence:'x'});assert.equal(bad.json.assessment,'TRY_AGAIN');const review=await req('POST','/api/journey/complete-star',{uid:a.uid,journeyId:j.id,evidence:'[review] ambiguous'});assert.equal(review.json.assessment,'REVIEW');
