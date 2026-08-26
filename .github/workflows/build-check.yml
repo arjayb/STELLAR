@@ -1,0 +1,26 @@
+name: STELLAR Build Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Syntax check server
+        run: node --check server.js
+      - name: Syntax check core
+        run: node --check src/core.js
+      - name: Syntax check client
+        run: node --check public/app.js
+      - name: Run STELLAR smoke tests
+        run: npm test
