@@ -1,3 +1,4 @@
+const crypto=require('crypto');
 const CLOUDINARY_URL=process.env.CLOUDINARY_URL||'';
 const MAX_BYTES=5*1024*1024;
 
@@ -19,20 +20,23 @@ function validateDataUrl(dataUrl){
   if(bytes<1||bytes>MAX_BYTES)throw Error('CG evidence must be between 1 byte and 5 MB');
   return bytes;
 }
+function sign(params,secret){
+  const canonical=Object.entries(params).filter(([,v])=>v!==undefined&&v!==null&&v!=='').sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>`${k}=${v}`).join('&');
+  return crypto.createHash('sha1').update(canonical+secret).digest('hex');
+}
 async function uploadCgEvidence({dataUrl,travelerUid,journeyId,guideUid=null,privacy='PUBLIC'}){
   const c=config();if(!c)throw Error('Cloudinary is not configured');
   const bytes=validateDataUrl(dataUrl);
   if(!travelerUid||!journeyId)throw Error('travelerUid and journeyId are required');
+  const timestamp=Math.floor(Date.now()/1000);
+  const publicId=`cg-${String(journeyId).replace(/[^A-Za-z0-9_-]/g,'')}-${Date.now()}`;
+  const params={asset_folder:'STELLAR/cg-authentication',backup:'true',context:`project=STELLAR|traveler_uid=${travelerUid}|journey_id=${journeyId}|privacy=${privacy}`,public_id:publicId,tags:'stellar,cg-authentication',timestamp,type:'authenticated'};
   const form=new FormData();
   form.append('file',dataUrl);
-  form.append('type','authenticated');
-  form.append('asset_folder','STELLAR/cg-authentication');
-  form.append('public_id',`cg-${String(journeyId).replace(/[^A-Za-z0-9_-]/g,'')}-${Date.now()}`);
-  form.append('tags','stellar,cg-authentication');
-  form.append('context',`project=STELLAR|traveler_uid=${travelerUid}|journey_id=${journeyId}|privacy=${privacy}`);
-  form.append('backup','true');
-  const auth=Buffer.from(`${c.apiKey}:${c.apiSecret}`).toString('base64');
-  const r=await fetch(`https://api.cloudinary.com/v1_1/${encodeURIComponent(c.cloudName)}/image/upload`,{method:'POST',headers:{Authorization:`Basic ${auth}`},body:form});
+  for(const [k,v] of Object.entries(params))form.append(k,String(v));
+  form.append('api_key',c.apiKey);
+  form.append('signature',sign(params,c.apiSecret));
+  const r=await fetch(`https://api.cloudinary.com/v1_1/${encodeURIComponent(c.cloudName)}/image/upload`,{method:'POST',body:form});
   const j=await r.json();
   if(!r.ok)throw Error(j?.error?.message||'Cloudinary upload failed');
   return {assetId:j.asset_id,publicId:j.public_id,resourceType:j.resource_type,type:j.type,format:j.format,bytes:j.bytes||bytes,createdAt:j.created_at,travelerUid,journeyId,guideUid,privacy,folder:j.asset_folder||'STELLAR/cg-authentication'};
