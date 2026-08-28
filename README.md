@@ -42,3 +42,7 @@ npm test
 Biometric liveness, production multimodal AI assessment, camera/media storage, production DB/auth infrastructure, and packaged mobile/APK runtime remain explicit external integrations. The repository does not pretend those vendors are already connected.
 
 See `docs/DESIGN-TRACEABILITY-MATRIX.txt` and `docs/INTEGRATION-MANIFEST.txt` for the BUILD boundary.
+
+---
+
+**KELBRIC Technologies** · GitHub namespace: `kelbrictech`
